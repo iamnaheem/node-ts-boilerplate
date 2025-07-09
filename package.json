@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon --exec ts-node src/app.ts",
+    "dev": "node --watch --env-file=.env --loader ts-node/esm src/app.ts",
     "start": "node dist/app.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -38,7 +38,6 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.1",
     "lint-staged": "^16.1.2",
-    "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
@@ -46,7 +45,6 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
-    "dotenv": "^17.1.0",
     "drizzle-kit": "^0.31.4",
     "drizzle-orm": "^0.44.2",
     "express": "^5.1.0",

@@ -8,7 +8,7 @@ A **production-ready** Node.js + TypeScript backend boilerplate with enterprise-
 - 🎯 **Code Quality Enforcement** - ESLint + Prettier + Husky pre-commit hooks
 - 📊 **Production Logging** - Structured JSON logs with Pino
 - 🗄️ **Modern Database Stack** - PostgreSQL + Drizzle ORM with migrations
-- 🚀 **Developer Experience** - Path aliases, hot reload, strict TypeScript
+- 🚀 **Developer Experience** - Path aliases, Node.js native watch mode, strict TypeScript
 
 Perfect starting point for building **scalable REST APIs** with authentication, validation, and enterprise-grade code quality.
 
@@ -32,11 +32,11 @@ Perfect starting point for building **scalable REST APIs** with authentication, 
 - **Path Aliases** - Clean imports with `@folder/` syntax
 - **Pino Logging** - High-performance logging with beautiful development formatting
 - **Code Quality** - ESLint + Prettier with pre-commit hooks
-- **Hot Reload** - Development with nodemon
+- **Hot Reload** - Development with Node.js's built-in `--watch` flag
 - **Type Safety** - End-to-end TypeScript with strict configuration
 
 ### **Production Ready**
-- **Environment Variables** - Secure configuration management
+- **Environment Variables** - Secure configuration management with Node.js's built-in `--env-file` flag
 - **Error Handling** - Comprehensive error handling with structured logging
 - **API Standards** - Consistent response format with detailed error messages
 - **CORS** - Cross-Origin Resource Sharing enabled
@@ -136,7 +136,7 @@ pnpm run db:migrate
 pnpm run dev
 ```
 
-The server will start on `http://localhost:3000` with beautiful colored logs in development mode. 
+The server will start on `http://localhost:3000` with beautiful colored logs in development mode. The development server uses Node.js's built-in `--watch` flag for automatic reloading and `--env-file` for environment variable loading.
 
 **Pro Tip:** The project uses TypeScript path aliases - you can import files using `@folder/` syntax instead of relative paths!
 
@@ -145,7 +145,7 @@ The server will start on `http://localhost:3000` with beautiful colored logs in 
 ### **Development**
 | Script | Description |
 |--------|-------------|
-| `pnpm run dev` | Start development server with hot reload |
+| `pnpm run dev` | Start development server with Node.js's built-in watch mode |
 | `pnpm run build` | Build the project for production |
 | `pnpm run start` | Start the production server |
 
@@ -299,6 +299,16 @@ curl http://localhost:3000/health
 | `LOG_LEVEL` | Logging level (trace, debug, info, warn, error) | `info` |
 
 > **⚠️ Security Note:** Change all JWT secrets in production! Use strong, randomly generated keys.
+
+### Modern Node.js Features
+
+This project leverages Node.js's built-in capabilities for development:
+
+- **`--watch` flag** - Automatic file watching and process restarting without external dependencies
+- **`--env-file` flag** - Native environment variable loading from `.env` files  
+- **`--loader` flag** - TypeScript support through ts-node/esm loader
+
+These features eliminate the need for external packages like `nodemon` and `dotenv`, resulting in fewer dependencies and better performance.
 
 ### Database Configuration
 
@@ -484,7 +494,7 @@ docker exec -it node-ts-postgres psql -U postgres -d myapp
 - **Linting:** ESLint with modern TypeScript rules
 - **Formatting:** Prettier with opinionated defaults
 - **Git Hooks:** Husky + lint-staged for pre-commit quality
-- **Hot Reload:** nodemon for development
+- **Hot Reload:** Node.js's built-in `--watch` flag for development
 - **Type Safety:** End-to-end TypeScript with strict mode
 
 ### **Logging & Monitoring**
