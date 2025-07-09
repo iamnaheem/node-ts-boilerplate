@@ -5,6 +5,7 @@ export interface ApiResponse<T = any> {
   data?: T;
   error?: string;
   message?: string;
+  details?: any; // For validation errors and other detailed information
 }
 
 export interface PaginationOptions {

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
+import bcrypt from 'bcryptjs';
 import { db } from '@db/connection';
 import { users, type User, type NewUser } from '@db/schema';
 import type { ApiResponse } from '../types';
@@ -59,20 +60,25 @@ export const userController = {
   // Create new user
   createUser: async (req: Request, res: Response<ApiResponse<User>>) => {
     try {
-      const { name, email } = req.body as Pick<NewUser, 'name' | 'email'>;
+      const { name, email, password } = req.body as Pick<NewUser, 'name' | 'email' | 'password'>;
 
-      if (!name || !email) {
+      if (!name || !email || !password) {
         logger.warn({ body: req.body }, 'User creation failed: missing required fields');
         return res.status(400).json({
           success: false,
-          error: 'Name and email are required',
+          error: 'Name, email, and password are required',
         });
       }
 
       logger.info({ name, email }, 'Creating new user');
+      
+      // Hash the password before storing
+      const saltRounds = 12;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      
       const newUser = await db
         .insert(users)
-        .values({ name, email })
+        .values({ name, email, password: hashedPassword })
         .returning();
 
       logger.info({ userId: newUser[0].id, email }, 'User created successfully');
