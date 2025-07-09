@@ -71,8 +71,6 @@ node-ts-boilerplate/
 │   ├── types/              # TypeScript type definitions
 │   │   └── index.ts        # Common types and interfaces
 │   └── app.ts              # Express app configuration & server entry point
-├── .husky/                 # Git hooks
-│   └── pre-commit         # Pre-commit linting
 ├── docker-compose.yml      # PostgreSQL container
 ├── drizzle.config.ts       # Drizzle ORM configuration
 ├── eslint.config.js        # ESLint configuration
