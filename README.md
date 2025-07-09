@@ -4,12 +4,13 @@ A modern, production-ready TypeScript Node.js backend boilerplate with PostgreSQ
 
 ## 🚀 Features
 
-- **TypeScript** - Type-safe development
+- **TypeScript** - Type-safe development with path mapping
 - **Express.js** - Fast, minimalist web framework
 - **PostgreSQL** - Robust relational database
 - **Drizzle ORM** - Type-safe database queries
 - **Docker Compose** - Containerized PostgreSQL
 - **Pino Logging** - High-performance logging with beautiful development formatting
+- **Path Aliases** - Clean imports with `@folder/` syntax
 - **CORS** - Cross-Origin Resource Sharing enabled
 - **Environment Variables** - Secure configuration management
 - **Standard Folder Structure** - Organized codebase
@@ -38,7 +39,7 @@ node-ts-boilerplate/
 │   └── app.ts              # Express app configuration & server entry point
 ├── docker-compose.yml      # PostgreSQL container
 ├── drizzle.config.ts       # Drizzle ORM configuration
-├── tsconfig.json           # TypeScript configuration
+├── tsconfig.json           # TypeScript configuration with path mapping
 ├── .env                    # Environment variables
 ├── .env.example            # Environment variables template
 └── package.json            # Dependencies and scripts
@@ -98,7 +99,9 @@ pnpm run db:migrate
 pnpm run dev
 ```
 
-The server will start on `http://localhost:3000` with beautiful colored logs in development mode.
+The server will start on `http://localhost:3000` with beautiful colored logs in development mode. 
+
+**Pro Tip:** The project uses TypeScript path aliases - you can import files using `@folder/` syntax instead of relative paths!
 
 ## 📝 Available Scripts
 
@@ -211,13 +214,57 @@ logger.info('Server started');
 logger.error({ error, userId }, 'Failed to create user');
 ```
 
+### Path Aliases Configuration
+
+The project uses TypeScript path mapping for clean imports:
+
+**Available Aliases:**
+- `@/` - src root directory
+- `@controllers/` - controllers folder
+- `@middleware/` - middleware folder  
+- `@routes/` - routes folder
+- `@utils/` - utils folder
+- `@custom-types/` - types folder
+- `@db/` - database folder
+
+**Usage Examples:**
+```typescript
+// Instead of relative paths
+import { userController } from '../controllers/userController';
+import logger from '../utils/logger';
+import { db } from '../db/connection';
+
+// Use clean aliases
+import { userController } from '@controllers/userController';
+import logger from '@utils/logger';
+import { db } from '@db/connection';
+```
+
+**Benefits:**
+- No more `../../../` relative path mess
+- Easier refactoring when moving files
+- Cleaner and more readable imports
+- Consistent import paths across the project
+
+**Adding New Path Aliases:**
+To add new path aliases, update `tsconfig.json`:
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@your-folder/*": ["your-folder/*"]
+    }
+  }
+}
+```
+
 ## 🏗️ Adding New Features
 
 ### 1. Create a New Route
 ```typescript
 // src/routes/productRoutes.ts
 import { Router } from 'express';
-import { productController } from '../controllers/productController';
+import { productController } from '@controllers/productController';
 
 export const productRoutes = Router();
 productRoutes.get('/', productController.getAllProducts);
@@ -227,10 +274,12 @@ productRoutes.get('/', productController.getAllProducts);
 ```typescript
 // src/controllers/productController.ts
 import { Request, Response } from 'express';
-import type { ApiResponse } from '../types';
+import type { ApiResponse } from '@custom-types';
+import logger from '@utils/logger';
 
 export const productController = {
   getAllProducts: async (req: Request, res: Response<ApiResponse>) => {
+    logger.info('Fetching all products');
     // Implementation
   }
 };
@@ -238,8 +287,8 @@ export const productController = {
 
 ### 3. Register Routes
 ```typescript
-// src/app.ts
-import { productRoutes } from './routes/productRoutes';
+// src/app.ts (or src/routes/index.ts)
+import { productRoutes } from '@routes/productRoutes';
 
 app.use('/api/products', productRoutes);
 ```
@@ -293,17 +342,19 @@ docker exec -it node-ts-postgres psql -U postgres -d myapp
 3. **Permission denied**: Ensure Docker daemon is running
 4. **Database connection failed**: Check if the PostgreSQL container is running
 5. **Import errors**: Run `pnpm run build` to check TypeScript compilation
+6. **Path alias not working**: Ensure `baseUrl` and `paths` are correctly configured in `tsconfig.json`
 
 ## 📚 Tech Stack
 
 - **Runtime:** Node.js
-- **Language:** TypeScript
+- **Language:** TypeScript with path mapping
 - **Framework:** Express.js
 - **Database:** PostgreSQL
 - **ORM:** Drizzle ORM
 - **Logging:** Pino with pino-pretty
 - **Container:** Docker & Docker Compose
 - **Package Manager:** pnpm
+- **Developer Experience:** Path aliases, hot reload, type safety
 
 ## 🤝 Contributing
 

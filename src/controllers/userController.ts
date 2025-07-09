@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
-import { db } from '../db/connection';
-import { users, type User, type NewUser } from '../db/schema';
+import { db } from '@db/connection';
+import { users, type User, type NewUser } from '@db/schema';
 import type { ApiResponse } from '../types';
-import logger from '../utils/logger';
+import logger from '@utils/logger';
 
 export const userController = {
   // Get all users

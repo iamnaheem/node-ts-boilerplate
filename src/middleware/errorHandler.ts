@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import type { ApiResponse } from '../types';
-import logger from '../utils/logger';
+import logger from '@utils/logger';
 
 export const errorHandler = (
   err: Error,
