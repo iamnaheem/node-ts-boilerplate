@@ -1,0 +1,53 @@
+services:
+  boilerplate:
+    container_name: boilerplate
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://boilerplate-redis:6379
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@boilerplate-db:5432/${DB_NAME}
+    depends_on:
+      - boilerplate-db
+      - boilerplate-redis
+    networks:
+      - app-network
+
+  boilerplate-db:
+    container_name: boilerplate-db
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  boilerplate-redis:
+    container_name: boilerplate-redis
+    image: redis:latest
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redis-data:

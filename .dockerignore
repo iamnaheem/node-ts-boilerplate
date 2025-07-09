@@ -1,0 +1,16 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env.local
+.env.development
+.env.production
+README.md
+.nyc_output
+coverage
+logs
+temp
+generated
+*.log
+.DS_Store
+Thumbs.db 

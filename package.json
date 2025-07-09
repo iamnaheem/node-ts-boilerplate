@@ -1,0 +1,41 @@
+{
+  "name": "node-ts-boilerplate",
+  "version": "1.0.0",
+  "description": "TypeScript Node.js backend boilerplate with PostgreSQL, Drizzle ORM, and Express",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node src/app.ts",
+    "start": "node dist/app.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.12",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.1.0",
+    "drizzle-kit": "^0.31.4",
+    "drizzle-orm": "^0.44.2",
+    "express": "^5.1.0",
+    "pino": "^9.7.0",
+    "pino-pretty": "^13.0.0",
+    "postgres": "^3.4.7"
+  }
+}

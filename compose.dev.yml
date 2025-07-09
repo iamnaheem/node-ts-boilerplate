@@ -1,0 +1,22 @@
+services:
+  boilerplate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "3000:3000" 
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+
+  boilerplate-db:
+    ports:
+      - "5432:5432" 
+
+  boilerplate-redis:
+    ports:
+      - "6379:6379" 
